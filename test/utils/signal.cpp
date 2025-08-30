@@ -48,7 +48,7 @@ int signal_init()
         return 1;
 
     // init signal
-    if (sigaction(SIGKILL, &sig_ft_strlen, NULL) == -1)
+    if (sigaction(SIGINT, &sig_ft_strlen, NULL) == -1)
         return 2;
 
     return 0;
