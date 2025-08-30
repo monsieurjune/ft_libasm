@@ -32,7 +32,8 @@ TEST_SRCS	:= $(addprefix $(TEST_DIR), $(TEST_SRC))
 
 # Utils Source
 UTILS_DIR	:= ./utils/
-UTILS_SRC	:= get_test_cases.cpp
+UTILS_SRC	:= get_test_cases.cpp \
+				signal.cpp
 UTILS_SRCS	:= $(addprefix $(UTILS_DIR), $(UTILS_SRC))
 
 # Source

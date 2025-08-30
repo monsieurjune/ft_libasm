@@ -9,6 +9,8 @@ namespace test
 namespace utils
 {
 
+int signal_init();
+
 std::deque<std::pair<std::string, std::string>>    get_test_cases(const char* dir);
 
 }
