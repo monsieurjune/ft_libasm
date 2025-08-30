@@ -1,0 +1,12 @@
+# IDE + OS Stuff
+.DS_Store
+.vscode/
+.idea/
+
+# Build Files
+/**/build/
+/**/*.o
+/**/*.d
+
+# Lib Files
+/**/*.a
