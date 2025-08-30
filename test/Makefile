@@ -35,6 +35,12 @@ LOGGER_DIR	:= ./logger/
 LOGGER_SRC	:= Logger.cpp
 LOGGER_SRCS	:= $(addprefix $(LOGGER_DIR), $(LOGGER_SRC))
 
+# Symbol Source
+SYMBOL_DIR	:= ./symbol/
+SYMBOL_SRC	:= symbol.cpp \
+				signal_name.cpp
+SYMBOL_SRCS	:= $(addprefix $(SYMBOL_DIR), $(SYMBOL_SRC))
+
 # Utils Source
 UTILS_DIR	:= ./utils/
 UTILS_SRC	:= get_test_cases.cpp \
@@ -42,7 +48,7 @@ UTILS_SRC	:= get_test_cases.cpp \
 UTILS_SRCS	:= $(addprefix $(UTILS_DIR), $(UTILS_SRC))
 
 # Source
-SRCS	:= $(MAIN_SRCS) $(TEST_SRCS) $(UTILS_SRCS) $(LOGGER_SRCS)
+SRCS	:= $(MAIN_SRCS) $(TEST_SRCS) $(UTILS_SRCS) $(SYMBOL_SRCS) $(LOGGER_SRCS)
 
 # Objects & Dependencies File
 OBJS	:= $(SRCS:%.cpp=$(BUILD_DIR)/%.o)

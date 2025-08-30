@@ -3,6 +3,7 @@ extern "C" {
 }
 
 #include "tester.hpp"
+#include "../symbol/symbol.hpp"
 #include "../logger/Logger.hpp"
 
 #include <string.h>
@@ -12,6 +13,7 @@ extern "C" {
 
 #include <deque>
 #include <string>
+#include <sstream>
 #include <iostream>
 
 namespace test
@@ -23,10 +25,10 @@ namespace cases
 void    ft_strlen_signal(int signum)
 {
     (void)signum;
-    exit(1);
+    exit(2);
 }
 
-static void sb_strlen_test(const char* case_name, const char* str)
+static void sb_strlen_test(test::log::Logger& logger, const char* case_name, const char* str)
 {
     pid_t   pid = fork();
 
@@ -42,15 +44,13 @@ static void sb_strlen_test(const char* case_name, const char* str)
         size_t  libasm_ret  = ft_strlen(str);
         size_t  std_ret     = strlen(str);
 
-        (void)libasm_ret;
-        (void)std_ret;
-        (void)case_name;
-        exit(0);
+        exit(!(libasm_ret == std_ret));
     }
 
     // parent
-    int     status;
-    time_t  start   = time(NULL);
+    int                 status;
+    std::stringstream   ss;
+    time_t              start   = time(NULL);
 
     while (1)
     {
@@ -61,9 +61,30 @@ static void sb_strlen_test(const char* case_name, const char* str)
         {
             if (WIFEXITED(status))
             {
+                switch (WEXITSTATUS(status))
+                {
+                    case 0:
+                        ss << "[" << case_name << "] " << test::symbol::get_symbol(test::symbol::SUCCESS);
+                        logger.log(logger.INFO, ss.str());
+                        break;
+                    case 1:
+                        ss << "[" << case_name << "] " << test::symbol::get_symbol(test::symbol::FAIL);
+                        logger.log(logger.INFO, ss.str());
+                        break;
+                    case 2:
+                        ss << "[" << case_name << "] " << test::symbol::get_symbol(test::symbol::TOO_LONG);
+                        logger.log(logger.INFO, ss.str());
+                        break;
+                    default:
+                        ss << "[" << case_name << "] " << test::symbol::get_symbol(test::symbol::UNKNOWN);
+                        logger.log(logger.INFO, ss.str());
+                        break;
+                }
             }
             if (WIFSIGNALED(status))
             {
+                ss << "[" << case_name << "] " << test::symbol::get_signal_name(WTERMSIG(status));
+                logger.log(logger.INFO, ss.str());
             }
             break;
         }
@@ -78,7 +99,7 @@ static void sb_strlen_test(const char* case_name, const char* str)
 
 void    ft_strlen_test(const char* path)
 {
-    
+    test::log::Logger                                       logger(NULL, "ft_strlen");
     std::deque<std::pair<std::string, std::string>> const   deque = test::utils::get_test_cases(path);
 
     if (deque.size() == 0)
@@ -88,7 +109,7 @@ void    ft_strlen_test(const char* path)
 
     for (auto const& pair : deque)
     {
-        sb_strlen_test(pair.first.c_str(), pair.second.c_str());
+        sb_strlen_test(logger, pair.first.c_str(), pair.second.c_str());
     }
 }
 
