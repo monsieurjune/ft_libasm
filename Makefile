@@ -19,5 +19,5 @@ fclean:
 
 re:	fclean all
 
-test:
+test:	all
 	@make -C $(TEST_DIR) test
