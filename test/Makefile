@@ -30,6 +30,11 @@ TEST_DIR	:= ./srcs/
 TEST_SRC	:= ft_strlen_test.cpp
 TEST_SRCS	:= $(addprefix $(TEST_DIR), $(TEST_SRC))
 
+# Logger Source
+LOGGER_DIR	:= ./logger/
+LOGGER_SRC	:= Logger.cpp
+LOGGER_SRCS	:= $(addprefix $(LOGGER_DIR), $(LOGGER_SRC))
+
 # Utils Source
 UTILS_DIR	:= ./utils/
 UTILS_SRC	:= get_test_cases.cpp \
@@ -37,7 +42,7 @@ UTILS_SRC	:= get_test_cases.cpp \
 UTILS_SRCS	:= $(addprefix $(UTILS_DIR), $(UTILS_SRC))
 
 # Source
-SRCS	:= $(MAIN_SRCS) $(TEST_SRCS) $(UTILS_SRCS)
+SRCS	:= $(MAIN_SRCS) $(TEST_SRCS) $(UTILS_SRCS) $(LOGGER_SRCS)
 
 # Objects & Dependencies File
 OBJS	:= $(SRCS:%.cpp=$(BUILD_DIR)/%.o)

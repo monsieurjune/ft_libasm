@@ -9,6 +9,15 @@ namespace test
 namespace utils
 {
 
+typedef enum e_loglevel
+{
+    DEBUG,
+    INFO,
+    WARN,
+    ERROR,
+    CRITICAL
+}   t_loglevel;
+
 int signal_init();
 
 std::deque<std::pair<std::string, std::string>>    get_test_cases(const char* dir);

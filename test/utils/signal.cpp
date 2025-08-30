@@ -24,7 +24,7 @@ static inline int  sb_init_mask(struct sigaction* sig, void (*handler)(int))
     return (0);
 }
 
-static inline int   sb_signal_init()
+int signal_init()
 {
     struct sigaction    sig_ft_strlen;
     struct sigaction    sig_ft_strcpy;
@@ -48,30 +48,10 @@ static inline int   sb_signal_init()
         return 1;
 
     // init signal
-    if (sigaction(SIGINT, &sig_ft_strlen, NULL) == -1)
+    if (sigaction(SIGKILL, &sig_ft_strlen, NULL) == -1)
         return 2;
 
     return 0;
-}
-
-int signal_init()
-{
-    int ret = sb_signal_init();
-
-    switch (ret)
-    {
-        case 0:
-            return ret;
-        case 1:
-            std::cerr << "sigemptyset() is failed" << std::endl;
-            return ret;
-        case 2:
-            std::cerr << "sigaction() is failed" << std::endl;
-            return ret;
-        default:
-            std::cerr << "unknown signal error error" << std::endl;
-            return ret;
-    }
 }
 
 }

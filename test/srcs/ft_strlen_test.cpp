@@ -3,6 +3,7 @@ extern "C" {
 }
 
 #include "tester.hpp"
+#include "../logger/Logger.hpp"
 
 #include <string.h>
 #include <unistd.h>
@@ -77,6 +78,7 @@ static void sb_strlen_test(const char* case_name, const char* str)
 
 void    ft_strlen_test(const char* path)
 {
+    
     std::deque<std::pair<std::string, std::string>> const   deque = test::utils::get_test_cases(path);
 
     if (deque.size() == 0)
