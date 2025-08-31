@@ -8,5 +8,11 @@
 /**/*.o
 /**/*.d
 
+# Tmp Test file
+/**/a.out
+/**/*.bak
+test.c
+test.cpp
+
 # Lib Files
 /**/*.a
