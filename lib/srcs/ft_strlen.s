@@ -7,13 +7,13 @@ global ft_strlen
 ;   rdi = const char* str
 
 ft_strlen:
-    mov rax, rdi    ; move str's ptr to rax
+    mov rax, rdi    ; copy str to str-tmp
 
     .loop_start:
-        cmp byte [rax], 0   ; compare *str to 0
+        cmp byte [rax], 0   ; compare *str-tmp to 0
         je .loop_end        ; jump to .loop_end if *str == 0
-        inc rax             ; increment ptr
-        jmp .loop_start     ; jump back to .loop_start
+        inc rax             ; str-tmp++
+        jmp .loop_start
 
     .loop_end:
         sub rax, rdi        ; len = current ptr - origninal ptr
