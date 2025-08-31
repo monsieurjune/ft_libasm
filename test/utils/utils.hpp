@@ -1,6 +1,7 @@
 #ifndef __UTILS_HPP__
 #define __UTILS_HPP__
 #include <deque>
+#include <vector>
 #include <string>
 
 namespace test
@@ -8,6 +9,8 @@ namespace test
 
 namespace utils
 {
+
+using t_cases = std::deque<std::pair<std::string, std::vector<std::string> > >;
 
 typedef enum e_loglevel
 {
@@ -20,11 +23,10 @@ typedef enum e_loglevel
 
 int signal_init();
 
-std::deque<std::pair<std::string, std::string>>    get_test_cases(const char* dir);
+t_cases    get_test_cases(const char* dir);
 
 }
 
 }
-
 
 #endif

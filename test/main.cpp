@@ -28,6 +28,7 @@ int main()
     }
 
     test::cases::ft_strlen_test("cases/ft_strlen");
+    test::cases::ft_strcpy_test("cases/ft_strcpy");
 
     return 0;
 }

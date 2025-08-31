@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <exception>
 #include <deque>
+#include <vector>
 #include <utility>
 #include <algorithm>
 #include <sstream>
@@ -16,10 +17,10 @@ namespace test
 namespace utils
 {
 
-std::deque<std::pair<std::string, std::string>>    get_test_cases(const char* dir)
+t_cases    get_test_cases(const char* dir)
 {
-    std::filesystem::path                               dir_path(dir);
-    std::deque<std::pair<std::string, std::string> >    str_deque;
+    std::filesystem::path   dir_path(dir);
+    t_cases                 str_deque;
 
     try
     {
@@ -40,18 +41,23 @@ std::deque<std::pair<std::string, std::string>>    get_test_cases(const char* di
             }
 
             // read file
-            std::stringstream   buff;
+            std::string                 line;
+            std::vector<std::string>    line_vec;
 
-            buff << file.rdbuf();
-            if (!buff.bad())
+            while (std::getline(file, line))
             {
-                str_deque.push_front(
-                    std::make_pair<std::string, std::string>(
-                        entry.path().filename().string(), buff.str()
-                    )
-                );
+                line_vec.push_back(line);
             }
 
+            // prevent empty vector
+            if (line_vec.size() == 0)
+            {
+                line_vec.emplace_back("");
+                line_vec.emplace_back("");
+            }
+
+            // store & close
+            str_deque.emplace_back(entry.path().filename().string(), line_vec);
             file.close();
         }
     }
