@@ -18,30 +18,34 @@ LIB			:= ar
 LIB_FLAG	:= rcs
 
 # Directories
-BUILD_DIR	:= build
-SRC_DIR		:= srcs
-INCLUDE_DIR	:= include
+BUILD_DIR	:= ./build
+INCLUDE_DIR	:= ./include
 
 # Main Source
-MAIN_DIR	:= $(SRC_DIR)/
-MAIN_SRC	:= ft_strlen.s
+MAIN_DIR	:= ./srcs/
+MAIN_SRC	:= ft_strlen.s \
+				ft_strcpy.s
 MAIN_SRCS	:= $(addprefix $(MAIN_DIR), $(MAIN_SRC))
 
 # Objects & Dependencies File
-SRCS	:= $(MAIN_SRCS)
-OBJS	:= $(SRCS:%.s=$(BUILD_DIR)/%.o)
-DEPS	:= $(OBJS:.o=.o.d)
+DIRS		:= $(MAIN_DIR)
+SRCS		:= $(MAIN_SRCS)
+OBJS		:= $(SRCS:%.s=$(BUILD_DIR)/%.o)
+OBJS_DIR	:= $(addprefix $(BUILD_DIR)/, $(DIRS))
+DEPS		:= $(OBJS:.o=.o.d)
 
 # Main Rules
 .PHONY:	all clean fclean re
 
 all:	$(NAME)
 
-$(NAME):	$(OBJS)
-	$(LIB) $(LIB_FLAG) $@ $<
+$(NAME):	$(OBJS_DIR) $(OBJS)
+	$(LIB) $(LIB_FLAG) $(NAME) $(OBJS)
+
+$(OBJS_DIR):
+	$(MKDIR) $@
 
 $(BUILD_DIR)/%.o:	%.s
-	$(MKDIR) $(@D)
 	$(ASM) $(ASM_FLAG) $(ASM_MFLAG) -I$(INCLUDE_DIR)/ $< -o $@
 
 clean:
