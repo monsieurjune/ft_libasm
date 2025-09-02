@@ -11,7 +11,7 @@ ASM			:= nasm
 ASM_FORMAT	:= elf64
 ASM_WFLAG	:= -w+all -w+error
 ASM_MFLAG	:= -MP -MD
-ASM_FLAG	:= -f $(ASM_FORMAT) $(ASM_WFLAG)
+ASM_FLAG	:= -f $(ASM_FORMAT) $(ASM_WFLAG) -g
 
 # Libary Properties
 LIB			:= ar
@@ -24,7 +24,8 @@ INCLUDE_DIR	:= ./include
 # Main Source
 MAIN_DIR	:= ./srcs/
 MAIN_SRC	:= ft_strlen.s \
-				ft_strcpy.s
+				ft_strcpy.s \
+				ft_strcmp.s
 MAIN_SRCS	:= $(addprefix $(MAIN_DIR), $(MAIN_SRC))
 
 # Objects & Dependencies File
