@@ -51,7 +51,7 @@ static void sb_strcmp_test(
         {
             // start to test
             int libasm_ret = ft_strcmp(s1, s2);
-            int std_ret = ft_strcmp(s1, s2);
+            int std_ret = strcmp(s1, s2);
 
             exit(!(libasm_ret == std_ret));
         }
