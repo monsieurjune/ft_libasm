@@ -22,18 +22,17 @@ namespace test
 namespace cases
 {
 
-char*   tmp1 = NULL;
-
-void    ft_strcpy_signal(int signum)
+void    ft_strcmp_signal(int signum)
 {
     (void)signum;
     exit(2);
 }
 
-static void sb_strcpy_test(
+static void sb_strcmp_test(
                 test::log::Logger& logger, 
                 const char* case_name, 
-                const char* str
+                const char* s1,
+                const char* s2
             )
 {
     pid_t   pid = fork();
@@ -49,30 +48,14 @@ static void sb_strcpy_test(
     {
         try
         {
-            tmp1 = new char[strlen(str) + 1];
-
             // start to test
-            char*   libasm_ret = ft_strcpy(tmp1, str);
+            int libasm_ret = ft_strcmp(s1, s2);
+            int std_ret = ft_strcmp(s1, s2);
 
-            // check return ptr
-            if (libasm_ret != tmp1)
-            {
-                delete[] tmp1;
-                tmp1 = NULL;
-                exit(1);
-            }
-
-            // check content
-            int ret = strcmp(tmp1, str);
-
-            delete[] tmp1;
-            tmp1 = NULL;
-            exit(!(ret == 0));
+            exit(!(libasm_ret == std_ret));
         }
         catch (std::bad_alloc const&)
         {
-            delete[] tmp1;
-            tmp1 = NULL;
             exit(3);
         }
     }
@@ -127,9 +110,9 @@ static void sb_strcpy_test(
     }
 }
 
-void    ft_strcpy_test(const char* path)
+void    ft_strcmp_test(const char* path)
 {
-    test::log::Logger           logger(NULL, "ft_strcpy");
+    test::log::Logger           logger(NULL, "ft_strcmp");
     test::utils::t_cases const  deque = test::utils::get_test_cases(path);
 
     if (deque.size() == 0)
@@ -139,10 +122,11 @@ void    ft_strcpy_test(const char* path)
 
     for (auto const& pair : deque)
     {
-        sb_strcpy_test(
+        sb_strcmp_test(
             logger, 
             pair.first.c_str(), 
-            pair.second.at(0).c_str()
+            pair.second.at(0).c_str(),
+            pair.second.at(1).c_str()
         );
     }
 }

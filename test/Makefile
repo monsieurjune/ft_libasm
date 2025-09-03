@@ -28,7 +28,8 @@ MAIN_SRCS	:= $(addprefix $(MAIN_DIR), $(MAIN_SRC))
 # Test Source
 TEST_DIR	:= ./srcs/
 TEST_SRC	:= ft_strlen_test.cpp \
-				ft_strcpy_test.cpp
+				ft_strcpy_test.cpp \
+				ft_strcmp_test.cpp
 TEST_SRCS	:= $(addprefix $(TEST_DIR), $(TEST_SRC))
 
 # Logger Source

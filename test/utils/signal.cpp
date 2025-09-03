@@ -38,7 +38,7 @@ int signal_init()
         return 1;
     if (sb_init_mask(&sig_ft_strcpy, &test::cases::ft_strcpy_signal))
         return 1;
-    if (sb_init_mask(&sig_ft_strcmp, NULL))
+    if (sb_init_mask(&sig_ft_strcmp, &test::cases::ft_strcmp_signal))
         return 1;
     if (sb_init_mask(&sig_ft_write, NULL))
         return 1;
@@ -51,6 +51,8 @@ int signal_init()
     if (sigaction(SIGINT, &sig_ft_strlen, NULL) == -1)
         return 2;
     if (sigaction(SIGINT, &sig_ft_strcpy, NULL) == -1)
+        return 2;
+    if (sigaction(SIGINT, &sig_ft_strcmp, NULL) == -1)
         return 2;
 
     return 0;
