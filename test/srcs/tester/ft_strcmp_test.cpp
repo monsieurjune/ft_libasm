@@ -2,9 +2,10 @@ extern "C" {
     #include "../../lib/include/libasm.h"
 }
 
-#include "tester.hpp"
-#include "../symbol/symbol.hpp"
-#include "../logger/Logger.hpp"
+#include "tester/tester.hpp"
+#include "utils/utils.hpp"
+#include "symbol/symbol.hpp"
+#include "logger/Logger.hpp"
 
 #include <string.h>
 #include <unistd.h>

@@ -15,36 +15,38 @@ CXXFLAG		:= $(CXX_WFLAG) $(CXX_STDFLAG)
 
 # Directories
 BUILD_DIR	:= ./build
+SRC_DIR		:= ./srcs
+INCLUDE_DIR	:= ./includes
 
 # Library Directories
 LIB_DIR		:= ../lib
 LIB_FILE	:= $(LIB_DIR)/libasm.a
 
 # Main Source
-MAIN_DIR	:= ./
+MAIN_DIR	:= $(SRC_DIR)/
 MAIN_SRC	:= main.cpp
 MAIN_SRCS	:= $(addprefix $(MAIN_DIR), $(MAIN_SRC))
 
 # Test Source
-TEST_DIR	:= ./srcs/
+TEST_DIR	:= $(SRC_DIR)/tester/
 TEST_SRC	:= ft_strlen_test.cpp \
 				ft_strcpy_test.cpp \
 				ft_strcmp_test.cpp
 TEST_SRCS	:= $(addprefix $(TEST_DIR), $(TEST_SRC))
 
 # Logger Source
-LOGGER_DIR	:= ./logger/
+LOGGER_DIR	:= $(SRC_DIR)/logger/
 LOGGER_SRC	:= Logger.cpp
 LOGGER_SRCS	:= $(addprefix $(LOGGER_DIR), $(LOGGER_SRC))
 
 # Symbol Source
-SYMBOL_DIR	:= ./symbol/
+SYMBOL_DIR	:= $(SRC_DIR)/symbol/
 SYMBOL_SRC	:= symbol.cpp \
 				signal_name.cpp
 SYMBOL_SRCS	:= $(addprefix $(SYMBOL_DIR), $(SYMBOL_SRC))
 
 # Utils Source
-UTILS_DIR	:= ./utils/
+UTILS_DIR	:= $(SRC_DIR)/utils/
 UTILS_SRC	:= get_test_cases.cpp \
 				signal.cpp
 UTILS_SRCS	:= $(addprefix $(UTILS_DIR), $(UTILS_SRC))
@@ -68,7 +70,7 @@ $(OBJS_DIR):
 	$(MKDIR) $@
 
 $(BUILD_DIR)/%.o:	%.cpp
-	$(CXX) $(CXXFLAG) $(CXX_MFLAG) -c $< -o $@
+	$(CXX) $(CXXFLAG) $(CXX_MFLAG) -I$(INCLUDE_DIR) -c $< -o $@
 
 clean:
 	$(RM) $(OBJS)
@@ -81,6 +83,6 @@ fclean:	clean
 re:	fclean all
 
 test:	all
-	@$(MAIN_DIR)/$(NAME)
+	@./$(NAME)
 
 -include $(DEPS)

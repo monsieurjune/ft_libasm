@@ -1,6 +1,6 @@
 #ifndef __TESTER_HPP__
 #define __TESTER_HPP__
-#include "../utils/utils.hpp"
+#include <ctime>
 
 namespace test
 {

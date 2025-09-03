@@ -1,4 +1,4 @@
-#include "../srcs/tester.hpp"
+#include "tester/tester.hpp"
 
 #include <signal.h>
 

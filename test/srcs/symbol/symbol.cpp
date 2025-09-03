@@ -1,4 +1,4 @@
-#include "symbol.hpp"
+#include "symbol/symbol.hpp"
 
 #define COLOR_RESET     "\033[0m"
 #define COLOR_BOLD      "\033[1m"
