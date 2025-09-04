@@ -4,7 +4,7 @@ global ft_strlen
 
 ; function: extern size_t   ft_strlen(const char* str);
 ; parameter:
-;   rdi = const char* str
+;   di = const char* str
 
 ft_strlen:
     mov rax, rdi    ; copy str to str-tmp

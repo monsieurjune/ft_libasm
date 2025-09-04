@@ -4,8 +4,8 @@ global ft_strcpy
 
 ; function: extern char *ft_strcpy(char* s1, const char* s2);
 ; parameter:
-;   rdi = char* s1
-;   rsi = const char* s2
+;   di = char* s1
+;   si = const char* s2
 
 ft_strcpy:
     mov r8, rdi     ; copy s1 to s1-tmp

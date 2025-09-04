@@ -4,8 +4,8 @@ global ft_strcmp
 
 ; extern int  ft_strcmp(const char* s1, const char* s2);
 ; parameter:
-;   rdi = const char* s1
-;   rsi = const char* s2
+;   di = const char* s1
+;   si = const char* s2
 
 ft_strcmp:
     .loop_start:
