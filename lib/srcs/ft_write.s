@@ -16,7 +16,7 @@ ft_write:
 
     mov eax, 0x01       ; 0x01 for using write
     mov ebx, edi        ; copy fd to 1st syscall arg
-    mov ecx, esi        ; copy buf fto 2nd sycall arg
+    mov rcx, rsi        ; copy buf's ptr fto 2nd sycall arg
 
     syscall             ; in syscall -> b = 1st, c = 2nd, d = 3rd
 
