@@ -26,7 +26,8 @@ MAIN_DIR	:= ./srcs/
 MAIN_SRC	:= ft_strlen.s \
 				ft_strcpy.s \
 				ft_strcmp.s \
-				ft_write.s
+				ft_write.s \
+				ft_read.s
 MAIN_SRCS	:= $(addprefix $(MAIN_DIR), $(MAIN_SRC))
 
 # Objects & Dependencies File
