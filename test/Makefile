@@ -48,7 +48,8 @@ SYMBOL_SRCS	:= $(addprefix $(SYMBOL_DIR), $(SYMBOL_SRC))
 # Utils Source
 UTILS_DIR	:= $(SRC_DIR)/utils/
 UTILS_SRC	:= get_test_cases.cpp \
-				signal.cpp
+				signal.cpp \
+				parent_wait.cpp
 UTILS_SRCS	:= $(addprefix $(UTILS_DIR), $(UTILS_SRC))
 
 # Objects & Dependencies File

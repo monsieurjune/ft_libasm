@@ -9,13 +9,9 @@ extern "C" {
 
 #include <string.h>
 #include <unistd.h>
-#include <time.h>
-#include <sys/wait.h>
 
 #include <deque>
 #include <string>
-#include <sstream>
-#include <iostream>
 
 namespace test
 {
@@ -28,7 +24,7 @@ char*   tmp1 = NULL;
 void    ft_strcpy_signal(int signum)
 {
     (void)signum;
-    exit(2);
+    exit(test::symbol::e_symbol::TOO_LONG);
 }
 
 static void sb_strcpy_test(
@@ -60,7 +56,7 @@ static void sb_strcpy_test(
             {
                 delete[] tmp1;
                 tmp1 = NULL;
-                exit(1);
+                exit(test::symbol::e_symbol::FAIL);
             }
 
             // check content
@@ -74,58 +70,12 @@ static void sb_strcpy_test(
         {
             delete[] tmp1;
             tmp1 = NULL;
-            exit(3);
+            exit(test::symbol::e_symbol::UNKNOWN);
         }
     }
 
     // parent
-    int                 status;
-    std::stringstream   ss;
-    time_t              start   = time(NULL);
-
-    while (1)
-    {
-        pid_t   child_pid   = waitpid(pid, &status, WNOHANG);
-
-        // child is dead
-        if (child_pid == pid)
-        {
-            if (WIFEXITED(status))
-            {
-                switch (WEXITSTATUS(status))
-                {
-                    case 0:
-                        ss << "[" << case_name << "] " << test::symbol::get_symbol(test::symbol::SUCCESS);
-                        logger.log(logger.INFO, ss.str());
-                        break;
-                    case 1:
-                        ss << "[" << case_name << "] " << test::symbol::get_symbol(test::symbol::FAIL);
-                        logger.log(logger.INFO, ss.str());
-                        break;
-                    case 2:
-                        ss << "[" << case_name << "] " << test::symbol::get_symbol(test::symbol::TOO_LONG);
-                        logger.log(logger.INFO, ss.str());
-                        break;
-                    default:
-                        ss << "[" << case_name << "] " << test::symbol::get_symbol(test::symbol::UNKNOWN);
-                        logger.log(logger.INFO, ss.str());
-                        break;
-                }
-            }
-            if (WIFSIGNALED(status))
-            {
-                ss << "[" << case_name << "] " << test::symbol::get_signal_name(WTERMSIG(status));
-                logger.log(logger.INFO, ss.str());
-            }
-            break;
-        }
-
-        // if child isn't dead yet, kill it, if timeout
-        if (time(NULL) - start > test::cases::max_time)
-        {
-            kill(pid, SIGINT);
-        }
-    }
+    test::utils::parent_wait(logger, case_name, pid, max_time);
 }
 
 void    ft_strcpy_test(const char* path)
