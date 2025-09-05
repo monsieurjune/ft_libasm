@@ -1,7 +1,6 @@
-#include <signal.h>
+#include "utils/color.hpp"
 
-#define COLOR_RESET     "\033[0m"
-#define COLOR_MAGENTA   "\033[35m"
+#include <signal.h>
 
 namespace test
 {

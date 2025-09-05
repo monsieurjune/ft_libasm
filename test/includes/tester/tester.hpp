@@ -1,6 +1,6 @@
 #ifndef __TESTER_HPP__
 #define __TESTER_HPP__
-#include <ctime>
+#include <time.h>
 
 namespace test
 {
