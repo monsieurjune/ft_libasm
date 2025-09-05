@@ -7,11 +7,11 @@ global ft_strlen
 ;   di = const char* str
 
 ft_strlen:
-    mov rax, rdi    ; copy str to str-tmp
+    mov rax, rdi    ; copy str's ptr to return register
 
     .loop_start:
         cmp byte [rax], 0   ; compare *str-tmp to 0
-        je .loop_end        ; jump to .loop_end if *str == 0
+        je .loop_end        ; jump to .loop_end if *str-tmp == 0
         inc rax             ; str-tmp++
         jmp .loop_start
 

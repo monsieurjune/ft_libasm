@@ -8,19 +8,18 @@ global ft_strcpy
 ;   si = const char* s2
 
 ft_strcpy:
-    mov r8, rdi     ; copy s1 to s1-tmp
+    mov rax, rdi    ; copy s1's ptr to return register
 
     .loop_start:
         mov byte r9b, [rsi]     ; copy *s2 to s2-tmp
-        mov byte [r8], r9b      ; copy s2-tmp to *s1-tmp
+        mov byte [rdi], r9b     ; copy s2-tmp to *s1
 
-        test byte r9b, r9b      ; if s2-tmp == 0, ZF falg is set
-        je .loop_end            ; jump to .loop_end if *s2 == 0
+        test byte r9b, r9b      ; if s2-tmp == 0, ZF flag is set
+        jz .loop_end            ; jump to .loop_end if ZF flag is set
 
-        inc r8                  ; s1-tmp++
+        inc rdi                 ; s1++
         inc rsi                 ; s2++
         jmp .loop_start
 
     .loop_end:
-        mov rax, rdi            ; return s1's ptr
         ret
