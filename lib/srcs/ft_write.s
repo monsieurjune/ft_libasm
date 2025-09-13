@@ -12,6 +12,8 @@ global ft_write
 
 ft_write:
     push rbx            ; preserve non-volatile register on stack
+
+    ; unnecessary, but for showing calling convention purpose.
     push rcx            ; preserve caller's register before call function
     push rdx            ; preserve caller's register before call function
 
@@ -21,13 +23,14 @@ ft_write:
 
     syscall             ; in syscall -> b = 1st, c = 2nd, d = 3rd (3rd one already in d register)
 
+    ; unnecessary, but for showing calling convention purpose.
     pop rdx             ; restore caller's register
     pop rcx             ; restore caller's register
+
     pop rbx             ; restore non-volitile register
 
     test rax, rax       ; if rax is negative, SF flag is set
-    js .error           ; jump to .error if SF falg is set
-
+    js .error           ; jump to .error if SF flag is set
     ret
 
     .error:
@@ -36,10 +39,10 @@ ft_write:
 
         ; load __errno_location()'s position from 'Global Object Table'
         ; and resolve it to RIP-relative position for PIE object to use
-        mov r9, [rel __errno_location wrt ..got]        
+        mov r9, [rel __errno_location wrt ..got]
         call r9
 
-        mov dword [rax], r8d    ; save error_value on *errno
+        mov dword [rax], r8d    ; save error_value on *errno_ptr
 
         mov rax, -1     ; return -1
         ret
