@@ -38,10 +38,24 @@ static void sb_strcpy_test(test::log::Logger& logger, const char* case_name, con
     // child
     if (pid == 0)
     {
-        size_t  libasm_ret  = ft_strlen(str);
-        size_t  std_ret     = strlen(str);
+        // test
+        std::string tmp(str);
+        size_t      std_ret     = strlen(str);
+        size_t      libasm_ret  = ft_strlen(str);
 
-        exit(!(libasm_ret == std_ret));
+        // check ret val
+        if (libasm_ret != std_ret)
+        {
+            exit(test::symbol::e_symbol::RETVAL_FAIL);
+        }
+
+        // check content
+        if (strcmp(tmp.c_str(), str) != 0)
+        {
+            exit(test::symbol::e_symbol::CONTENT_FAIL);
+        }
+
+        exit(test::symbol::e_symbol::SUCCESS);
     }
 
     // parent

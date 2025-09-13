@@ -8,7 +8,7 @@ MKDIR	:= mkdir -p
 
 # Compiler Properties
 CXX			:= c++
-CXX_WFLAG	:= -Wall -Werror -Wextra
+CXX_WFLAG	:= -Wall -Werror -Wextra -Wpedantic
 CXX_MFLAG	:= -MP -MD
 CXX_STDFLAG	:= -std=c++17
 CXXFLAG		:= $(CXX_WFLAG) $(CXX_STDFLAG)

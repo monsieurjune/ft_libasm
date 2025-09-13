@@ -19,11 +19,15 @@ namespace test
 namespace cases
 {
 
-char*   tmp1 = NULL;
+char*   buff = NULL;
 
 void    ft_strcpy_signal(int signum)
 {
     (void)signum;
+
+    delete[] buff;
+    buff = NULL;
+
     exit(test::symbol::e_symbol::TOO_LONG);
 }
 
@@ -46,31 +50,39 @@ static void sb_strcpy_test(
     {
         try
         {
-            tmp1 = new char[strlen(str) + 1];
+            // create buffer
+            std::string tmp0(str);
+
+            buff = new char[strlen(str) + 1];
 
             // start to test
-            char*   libasm_ret = ft_strcpy(tmp1, str);
+            char*   libasm_ret = ft_strcpy(buff, str);
 
             // check return ptr
-            if (libasm_ret != tmp1)
+            if (libasm_ret != buff)
             {
-                delete[] tmp1;
-                tmp1 = NULL;
-                exit(test::symbol::e_symbol::FAIL);
+                delete[] buff;
+                buff = NULL;
+                exit(test::symbol::e_symbol::RETVAL_FAIL);
             }
 
             // check content
-            int ret = strcmp(tmp1, str);
+            int origin_diff = strcmp(tmp0.c_str(), str);
+            int asm_diff = strcmp(tmp0.c_str(), buff);
 
-            delete[] tmp1;
-            tmp1 = NULL;
-            exit(!(ret == 0));
+            // free
+            delete[] buff;
+            buff = NULL;
+
+            if (origin_diff != 0 || asm_diff != 0)
+            {
+                exit(test::symbol::e_symbol::CONTENT_FAIL);
+            }
+            exit(test::symbol::e_symbol::SUCCESS);
         }
         catch (std::bad_alloc const&)
         {
-            delete[] tmp1;
-            tmp1 = NULL;
-            exit(test::symbol::e_symbol::UNKNOWN);
+            exit(test::symbol::e_symbol::MEM_ERROR);
         }
     }
 

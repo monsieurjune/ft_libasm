@@ -45,11 +45,25 @@ static void sb_strcmp_test(
     {
         try
         {
-            // start to test
-            int libasm_ret = ft_strcmp(s1, s2);
-            int std_ret = strcmp(s1, s2);
+            // create buffer
+            std::string tmp_s1(s1);
+            std::string tmp_s2(s2);
 
-            exit(!(libasm_ret == std_ret));
+            // start to test
+            int std_ret     = strcmp(s1, s2);
+            int libasm_ret  = ft_strcmp(s1, s2);
+
+            if (libasm_ret != std_ret)
+            {
+                exit(test::symbol::e_symbol::RETVAL_FAIL);
+            }
+
+            if (tmp_s1 != s1 || tmp_s2 != s2)
+            {
+                exit(test::symbol::e_symbol::CONTENT_FAIL);
+            }
+
+            exit(test::symbol::e_symbol::SUCCESS);
         }
         catch (std::bad_alloc const&)
         {

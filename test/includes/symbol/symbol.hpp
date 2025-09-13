@@ -10,8 +10,11 @@ namespace symbol
 typedef enum e_symbol
 {
     SUCCESS,
-    FAIL,
+    RETVAL_FAIL,
+    CONTENT_FAIL,
+    ERRNO_FAIL,
     TOO_LONG,
+    MEM_ERROR,
     UNKNOWN
 }   t_symbol;
 
