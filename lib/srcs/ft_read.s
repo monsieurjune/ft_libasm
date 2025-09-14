@@ -11,38 +11,31 @@ global ft_read
 ;   d = size_t n
 
 ft_read:
-    push rbx            ; preserve non-volatile register on stack
+    push rbx            ; preserve non-volatile register on stack (+8 bytes -> 8+8 bytes on stack)
 
-    ; unnecessary, but for showing calling convention purpose.
-    push rcx            ; preserve caller's register before call function
-    push rdx            ; preserve caller's register before call function
-
-    mov rax, 0          ; 0 for using write
+    mov rax, 0          ; 0 for using reading
     movsx rbx, edi      ; copy fd to 1st syscall arg with respect of sign bit
     mov rcx, rsi        ; copy buf's ptr fto 2nd sycall arg
 
     syscall             ; in syscall -> b = 1st, c = 2nd, d = 3rd (3rd one already in d register)
 
-    ; unnecessary, but for showing calling convention purpose.
-    pop rdx             ; restore caller's register
-    pop rcx             ; restore caller's register
-
-    pop rbx             ; restore non-volitile register
+    pop rbx             ; restore non-volitile register (-8 bytes -> 8+0 bytes on stack)
 
     test rax, rax       ; if rax is negative, SF flag is set
     js .error           ; jump to .error if SF flag is set
     ret
 
     .error:
-        neg rax         ; error_value = -1 * syscall_error_ret_value 
-        mov r8, rax     ; store error_value in err-tmp
+        neg rax         ; error_value = -1 * syscall_error_ret_value
+        push rax        ; preserve error_value on stack (+8 bytes -> 8+8 bytes on stack)
 
         ; load __errno_location()'s position from 'Global Object Table'
         ; and resolve it to RIP-relative position for PIE object to use
         mov r9, [rel __errno_location wrt ..got]
         call r9
 
+        pop r8                  ; restore error_value to r8 (-8 bytes -> 8+0 bytes on stack)
         mov dword [rax], r8d    ; save error_value on *errno_ptr
 
-        mov rax, -1     ; return -1
+        mov rax, -1             ; return -1
         ret
