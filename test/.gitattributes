@@ -1,0 +1,7 @@
+# Enforce LF to all file
+* text eol=lf
+
+# Making git think that these text file is binary.
+# So these files don't account for git diff.
+# Since these files are just test cases.
+cases/**/*
