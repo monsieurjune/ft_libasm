@@ -16,7 +16,7 @@ extern "C" {
 namespace test
 {
 
-namespace cases
+namespace signal
 {
 
 void    ft_strlen_signal(int signum)
@@ -24,6 +24,11 @@ void    ft_strlen_signal(int signum)
     (void)signum;
     exit(test::symbol::e_symbol::TOO_LONG);
 }
+
+}
+
+namespace cases
+{
 
 static void sb_strcpy_test(test::log::Logger& logger, const char* case_name, const char* str)
 {

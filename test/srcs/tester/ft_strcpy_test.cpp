@@ -16,10 +16,10 @@ extern "C" {
 namespace test
 {
 
-namespace cases
-{
-
 char*   buff = NULL;
+
+namespace signal
+{
 
 void    ft_strcpy_signal(int signum)
 {
@@ -30,6 +30,11 @@ void    ft_strcpy_signal(int signum)
 
     exit(test::symbol::e_symbol::TOO_LONG);
 }
+
+}
+
+namespace cases
+{
 
 static void sb_strcpy_test(
                 test::log::Logger& logger, 
