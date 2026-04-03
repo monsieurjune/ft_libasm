@@ -13,6 +13,9 @@ extern "C" {
 #include <deque>
 #include <string>
 
+constexpr const char*   name    = "ft_strcpy";
+constexpr const char*   logname = NULL;
+
 namespace test
 {
 
@@ -40,36 +43,36 @@ static void sb_strcpy_test(test::log::Logger& logger, const char* case_name, con
         return;
     }
 
-    // child
-    if (pid == 0)
+    // parent
+    if (pid != 0)
     {
-        // test
-        std::string tmp(str);
-        size_t      std_ret     = strlen(str);
-        size_t      libasm_ret  = ft_strlen(str);
-
-        // check ret val
-        if (libasm_ret != std_ret)
-        {
-            exit(test::symbol::e_symbol::RETVAL_FAIL);
-        }
-
-        // check content
-        if (strcmp(tmp.c_str(), str) != 0)
-        {
-            exit(test::symbol::e_symbol::CONTENT_FAIL);
-        }
-
-        exit(test::symbol::e_symbol::SUCCESS);
+        test::utils::parent_wait(logger, case_name, pid, max_time);
+        return;
     }
 
-    // parent
-    test::utils::parent_wait(logger, case_name, pid, max_time);
+    // child
+    std::string tmp(str);
+    size_t      std_ret     = strlen(str);
+    size_t      libasm_ret  = ft_strlen(str);
+
+    // check ret val
+    if (libasm_ret != std_ret)
+    {
+        exit(test::symbol::e_symbol::RETVAL_FAIL);
+    }
+
+    // check content
+    if (strncmp(tmp.c_str(), str, tmp.length()) != 0)
+    {
+        exit(test::symbol::e_symbol::CONTENT_FAIL);
+    }
+
+    exit(test::symbol::e_symbol::SUCCESS);
 }
 
 void    ft_strlen_test(const char* path)
 {
-    test::log::Logger           logger(NULL, "ft_strlen");
+    test::log::Logger           logger(logname, name);
     test::utils::t_cases const  deque = test::utils::get_test_cases(path);
 
     if (deque.size() == 0)
@@ -79,7 +82,11 @@ void    ft_strlen_test(const char* path)
 
     for (auto const& pair : deque)
     {
-        sb_strcpy_test(logger, pair.first.c_str(), pair.second.at(0).c_str());
+        sb_strcpy_test(
+            logger, 
+            pair.first.c_str(), 
+            pair.second.at(0).c_str()
+        );
     }
 }
 

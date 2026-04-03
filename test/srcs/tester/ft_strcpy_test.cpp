@@ -13,10 +13,22 @@ extern "C" {
 #include <deque>
 #include <string>
 
+constexpr const char*   name    = "ft_strcpy";
+constexpr const char*   logname = NULL;
+
 namespace test
 {
 
-char*   buff = NULL;
+static char*   buff = NULL;
+
+static inline void  sb_free_buff(void)
+{
+    if (buff == NULL)
+        return;
+
+    delete[] buff;
+    buff = NULL;
+}
 
 namespace signal
 {
@@ -25,9 +37,7 @@ void    ft_strcpy_signal(int signum)
 {
     (void)signum;
 
-    delete[] buff;
-    buff = NULL;
-
+    sb_free_buff();
     exit(test::symbol::e_symbol::TOO_LONG);
 }
 
@@ -50,54 +60,53 @@ static void sb_strcpy_test(
         return;
     }
 
-    // child
-    if (pid == 0)
+    // parent
+    if (pid != 0)
     {
-        try
-        {
-            // create buffer
-            std::string tmp0(str);
-
-            buff = new char[strlen(str) + 1];
-
-            // start to test
-            char*   libasm_ret = ft_strcpy(buff, str);
-
-            // check return ptr
-            if (libasm_ret != buff)
-            {
-                delete[] buff;
-                buff = NULL;
-                exit(test::symbol::e_symbol::RETVAL_FAIL);
-            }
-
-            // check content
-            int origin_diff = strcmp(tmp0.c_str(), str);
-            int asm_diff = strcmp(tmp0.c_str(), buff);
-
-            // free
-            delete[] buff;
-            buff = NULL;
-
-            if (origin_diff != 0 || asm_diff != 0)
-            {
-                exit(test::symbol::e_symbol::CONTENT_FAIL);
-            }
-            exit(test::symbol::e_symbol::SUCCESS);
-        }
-        catch (std::bad_alloc const&)
-        {
-            exit(test::symbol::e_symbol::MEM_ERROR);
-        }
+        test::utils::parent_wait(logger, case_name, pid, max_time);
+        return;
     }
 
-    // parent
-    test::utils::parent_wait(logger, case_name, pid, max_time);
+    // child
+    try
+    {
+        buff = new char[strlen(str) + 1];
+
+        // start to test
+        std::string tmp0(str);
+        char*       libasm_ret = ft_strcpy(buff, str);
+
+        // check return ptr
+        if (libasm_ret != buff)
+        {
+            sb_free_buff();
+            exit(test::symbol::e_symbol::RETVAL_FAIL);
+        }
+
+        // check content
+        int src_diff = strncmp(tmp0.c_str(), str, tmp0.length());
+        int dst_diff = strncmp(tmp0.c_str(), buff, tmp0.length());
+
+        sb_free_buff();
+        if (src_diff != 0 || dst_diff != 0)
+        {
+            exit(test::symbol::e_symbol::CONTENT_FAIL);
+        }
+        exit(test::symbol::e_symbol::SUCCESS);
+    }
+    catch (std::bad_alloc const&)
+    {
+        exit(test::symbol::e_symbol::MEM_ERROR);
+    }
+    catch (std::exception const&)
+    {
+        exit(test::symbol::e_symbol::UNKNOWN);
+    }
 }
 
 void    ft_strcpy_test(const char* path)
 {
-    test::log::Logger           logger(NULL, "ft_strcpy");
+    test::log::Logger           logger(logname, name);
     test::utils::t_cases const  deque = test::utils::get_test_cases(path);
 
     if (deque.size() == 0)

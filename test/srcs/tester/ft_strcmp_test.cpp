@@ -13,6 +13,9 @@ extern "C" {
 #include <deque>
 #include <string>
 
+constexpr const char*   name    = "ft_strcpy";
+constexpr const char*   logname = NULL;
+
 namespace test
 {
 
@@ -45,44 +48,44 @@ static void sb_strcmp_test(
         return;
     }
 
-    // child
-    if (pid == 0)
+    // parent
+    if (pid != 0)
     {
-        try
-        {
-            // create buffer
-            std::string tmp_s1(s1);
-            std::string tmp_s2(s2);
-
-            // start to test
-            int std_ret     = strcmp(s1, s2);
-            int libasm_ret  = ft_strcmp(s1, s2);
-
-            if (libasm_ret != std_ret)
-            {
-                exit(test::symbol::e_symbol::RETVAL_FAIL);
-            }
-
-            if (tmp_s1 != s1 || tmp_s2 != s2)
-            {
-                exit(test::symbol::e_symbol::CONTENT_FAIL);
-            }
-
-            exit(test::symbol::e_symbol::SUCCESS);
-        }
-        catch (std::bad_alloc const&)
-        {
-            exit(test::symbol::e_symbol::UNKNOWN);
-        }
+        test::utils::parent_wait(logger, case_name, pid, max_time);
+        return;
     }
 
-    // parent
-    test::utils::parent_wait(logger, case_name, pid, max_time);
+    // child
+    try
+    {
+        std::string tmp_s1(s1);
+        std::string tmp_s2(s2);
+
+        // start to test
+        int std_ret     = strcmp(s1, s2);
+        int libasm_ret  = ft_strcmp(s1, s2);
+
+        if (libasm_ret != std_ret)
+        {
+            exit(test::symbol::e_symbol::RETVAL_FAIL);
+        }
+
+        if (tmp_s1 != s1 || tmp_s2 != s2)
+        {
+            exit(test::symbol::e_symbol::CONTENT_FAIL);
+        }
+
+        exit(test::symbol::e_symbol::SUCCESS);
+    }
+    catch (std::exception const&)
+    {
+        exit(test::symbol::e_symbol::UNKNOWN);
+    }
 }
 
 void    ft_strcmp_test(const char* path)
 {
-    test::log::Logger           logger(NULL, "ft_strcmp");
+    test::log::Logger           logger(logname, name);
     test::utils::t_cases const  deque = test::utils::get_test_cases(path);
 
     if (deque.size() == 0)
