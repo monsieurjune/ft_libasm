@@ -6,18 +6,18 @@ TEST_DIR	:= test
 .PHONY:	all clean fclean re test
 
 all:
-	@make -C $(LIB_DIR) all
-	@make -C $(TEST_DIR) all
+	@$(MAKE) -C $(LIB_DIR) all
+	@$(MAKE) -C $(TEST_DIR) all
 
 clean:
-	@make -C $(LIB_DIR) clean
-	@make -C $(TEST_DIR) clean
+	@$(MAKE) -C $(LIB_DIR) clean
+	@$(MAKE) -C $(TEST_DIR) clean
 
 fclean:
-	@make -C $(LIB_DIR) fclean
-	@make -C $(TEST_DIR) fclean
+	@$(MAKE) -C $(LIB_DIR) fclean
+	@$(MAKE) -C $(TEST_DIR) fclean
 
 re:	fclean all
 
 test:	all
-	@make -C $(TEST_DIR) test
+	@$(MAKE) -C $(TEST_DIR) test
