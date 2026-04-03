@@ -10,7 +10,7 @@ MKDIR	:= mkdir -p
 CXX			:= c++
 CXX_WFLAG	:= -Wall -Werror -Wextra -Wpedantic
 CXX_MFLAG	:= -MP -MD
-CXX_STDFLAG	:= -std=c++17
+CXX_STDFLAG	:= -std=gnu++20
 CXXFLAG		:= $(CXX_WFLAG) $(CXX_STDFLAG)
 
 # Directories

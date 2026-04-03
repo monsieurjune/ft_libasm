@@ -95,16 +95,13 @@ void    Logger::log(t_loglevel level, std::string const& msg)
         << COLOR_BLUE << '[' << this->_name << ']' << COLOR_RESET 
         << ": " << msg;
 
-    // convert to string
-    std::string log(ss.str());
-
     // print out
-    std::cerr << log << std::endl;
+    std::cerr << ss.str() << std::endl;
 
     // write on log file, if it is writable
     if (this->_out.good())
     {
-        this->_out << log << std::endl;
+        this->_out << ss.str() << std::endl;
     }
 }
 
