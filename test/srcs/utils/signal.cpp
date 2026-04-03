@@ -1,9 +1,12 @@
+#include "utils/signal.hpp"
+
 #include "tester/tester.hpp"
 #include "logger/Logger.hpp"
 
 #include <signal.h>
 
 constexpr const char*   TAG         = "signal";
+constexpr const char*   LOGFILE     = NULL;
 constexpr int           success     = 0;
 constexpr int           fail_mask   = 1;
 constexpr int           fail_sigact = 2;
@@ -28,7 +31,7 @@ static inline int  sb_init_mask(struct sigaction* sig, void (*handler)(int))
     return 1;
 }
 
-static int sb_signal_init()
+static int sb_signal_init(void)
 {
     struct sigaction    sig_ft_strlen;
     struct sigaction    sig_ft_strcpy;
@@ -62,7 +65,7 @@ static int sb_signal_init()
     return success;
 }
 
-int signal_init()
+int signal_init(void)
 {
     int ret = sb_signal_init();
 
@@ -72,7 +75,7 @@ int signal_init()
     }
 
     // Fail
-    log::Logger logger(NULL, TAG);
+    log::Logger logger(LOGFILE, TAG);
 
     if (ret == fail_mask)
     {

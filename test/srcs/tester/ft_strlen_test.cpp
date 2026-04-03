@@ -3,6 +3,7 @@ extern "C" {
 }
 
 #include "tester/tester.hpp"
+
 #include "utils/utils.hpp"
 #include "symbol/symbol.hpp"
 #include "logger/Logger.hpp"
@@ -10,11 +11,10 @@ extern "C" {
 #include <string.h>
 #include <unistd.h>
 
-#include <deque>
 #include <string>
 
-constexpr const char*   name    = "ft_strcpy";
-constexpr const char*   logname = NULL;
+constexpr const char*   TAG    = "ft_strcpy";
+constexpr const char*   LOGNAME = NULL;
 
 namespace test
 {
@@ -33,7 +33,7 @@ void    ft_strlen_signal(int signum)
 namespace cases
 {
 
-static void sb_strcpy_test(test::log::Logger& logger, const char* case_name, const char* str)
+static void sb_strcpy_test(test::log::Logger* logger, const char* case_name, const char* str)
 {
     pid_t   pid = fork();
 
@@ -72,7 +72,7 @@ static void sb_strcpy_test(test::log::Logger& logger, const char* case_name, con
 
 void    ft_strlen_test(const char* path)
 {
-    test::log::Logger           logger(logname, name);
+    test::log::Logger           logger(LOGNAME, TAG);
     test::utils::t_cases const  deque = test::utils::get_test_cases(path);
 
     if (deque.size() == 0)
@@ -83,7 +83,7 @@ void    ft_strlen_test(const char* path)
     for (auto const& pair : deque)
     {
         sb_strcpy_test(
-            logger, 
+            &logger, 
             pair.first.c_str(), 
             pair.second.at(0).c_str()
         );

@@ -1,4 +1,5 @@
 #include "logger/Logger.hpp"
+
 #include "utils/color.hpp"
 
 #include <ctime>

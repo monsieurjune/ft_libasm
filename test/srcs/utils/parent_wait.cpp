@@ -1,3 +1,5 @@
+#include "utils/utils.hpp"
+
 #include "logger/Logger.hpp"
 #include "symbol/symbol.hpp"
 
@@ -13,7 +15,7 @@ namespace test
 namespace utils
 {
 
-static inline void  sb_check_dead_child(test::log::Logger& logger, const char* case_name, int status)
+static inline void  sb_check_dead_child(test::log::Logger* logger, const char* case_name, int status)
 {
     std::stringstream   ss;
 
@@ -26,10 +28,10 @@ static inline void  sb_check_dead_child(test::log::Logger& logger, const char* c
     {
         ss << test::symbol::get_signal_name(WTERMSIG(status));
     }
-    logger.log(logger.INFO, ss.str());
+    logger->log(logger->INFO, ss.str());
 }
 
-void    parent_wait(test::log::Logger& logger, const char* case_name, pid_t pid, int max_time)
+void    parent_wait(test::log::Logger* logger, const char* case_name, pid_t pid, int max_time)
 {
     int     status;
     time_t  start   = time(NULL);

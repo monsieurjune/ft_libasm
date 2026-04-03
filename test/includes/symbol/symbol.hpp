@@ -7,6 +7,9 @@ namespace test
 namespace symbol
 {
 
+/**
+ * 
+ */
 typedef enum e_symbol
 {
     SUCCESS,
@@ -18,7 +21,14 @@ typedef enum e_symbol
     UNKNOWN
 }   t_symbol;
 
+/**
+ * 
+ */
 const char* get_symbol(t_symbol symbol);
+
+/**
+ * 
+ */
 const char* get_signal_name(int signum);
 
 }

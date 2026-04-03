@@ -3,6 +3,7 @@ extern "C" {
 }
 
 #include "tester/tester.hpp"
+
 #include "utils/utils.hpp"
 #include "symbol/symbol.hpp"
 #include "logger/Logger.hpp"
@@ -10,11 +11,10 @@ extern "C" {
 #include <string.h>
 #include <unistd.h>
 
-#include <deque>
 #include <string>
 
-constexpr const char*   name    = "ft_strcpy";
-constexpr const char*   logname = NULL;
+constexpr const char*   TAG    = "ft_strcpy";
+constexpr const char*   LOGNAME = NULL;
 
 namespace test
 {
@@ -34,7 +34,7 @@ namespace cases
 {
 
 static void sb_strcmp_test(
-                test::log::Logger& logger, 
+                test::log::Logger* logger, 
                 const char* case_name, 
                 const char* s1,
                 const char* s2
@@ -85,7 +85,7 @@ static void sb_strcmp_test(
 
 void    ft_strcmp_test(const char* path)
 {
-    test::log::Logger           logger(logname, name);
+    test::log::Logger           logger(LOGNAME, TAG);
     test::utils::t_cases const  deque = test::utils::get_test_cases(path);
 
     if (deque.size() == 0)
@@ -96,7 +96,7 @@ void    ft_strcmp_test(const char* path)
     for (auto const& pair : deque)
     {
         sb_strcmp_test(
-            logger, 
+            &logger, 
             pair.first.c_str(), 
             pair.second.at(0).c_str(),
             pair.second.at(1).c_str()
