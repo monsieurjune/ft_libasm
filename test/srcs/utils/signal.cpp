@@ -47,9 +47,9 @@ static int sb_signal_init(void)
         return fail_mask;
     if (!sb_init_mask(&sig_ft_strcmp, &test::signal::ft_strcmp_signal))
         return fail_mask;
-    if (!sb_init_mask(&sig_ft_write, NULL))
+    if (!sb_init_mask(&sig_ft_read, &test::signal::ft_read_signal))
         return fail_mask;
-    if (!sb_init_mask(&sig_ft_read, NULL))
+    if (!sb_init_mask(&sig_ft_write, NULL))
         return fail_mask;
     if (!sb_init_mask(&sig_ft_strdup, NULL))
         return fail_mask;
@@ -60,6 +60,8 @@ static int sb_signal_init(void)
     if (sigaction(SIGINT, &sig_ft_strcpy, NULL) == -1)
         return fail_sigact;
     if (sigaction(SIGINT, &sig_ft_strcmp, NULL) == -1)
+        return fail_sigact;
+    if (sigaction(SIGINT, &sig_ft_read, NULL) == -1)
         return fail_sigact;
 
     return success;

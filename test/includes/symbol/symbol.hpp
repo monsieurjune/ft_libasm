@@ -16,6 +16,7 @@ typedef enum e_symbol
     RETVAL_FAIL,
     CONTENT_FAIL,
     ERRNO_FAIL,
+    OPEN_FAIL,
     TOO_LONG,
     MEM_ERROR,
     UNKNOWN

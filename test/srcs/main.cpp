@@ -11,6 +11,7 @@ int main()
     test::cases::ft_strlen_test("cases/rules/ft_strlen");
     test::cases::ft_strcpy_test("cases/rules/ft_strcpy");
     test::cases::ft_strcmp_test("cases/rules/ft_strcmp");
+    test::cases::ft_read_test("cases/rules/ft_read");
 
     return 0;
 }
